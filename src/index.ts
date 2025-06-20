@@ -1,7 +1,7 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { NextFunction, Request, Response } from 'express';
-import { getMe, login, signup } from './controllers/authController';
+import { getMe, login, signup, initializeManager } from './controllers/authController';
 import { createInventoryItem, getInventory, updateInventory } from './controllers/inventoryController';
 import { createMenuItem, deleteMenuItem, getMenu, updateMenuItem } from './controllers/menuController';
 import { createOrder, getDailySales, getOrders, updateOrderStatus } from './controllers/orderController';
@@ -23,6 +23,9 @@ app.use(express.json());
 app.post('/auth/signup', signup as express.RequestHandler);
 app.post('/auth/login', login as express.RequestHandler);
 app.get('/menu', getMenu as express.RequestHandler);
+
+// Initial manager setup (public but can only be used once)
+app.post('/api/init-manager', initializeManager as express.RequestHandler);
 
 app.use(authenticateToken as express.RequestHandler);
 app.get('/auth/me', getMe as express.RequestHandler);
